@@ -174,7 +174,8 @@ pub fn Image::compare_grid(
       if ((c >> a) & 1) == 0 {
         0.0
       } else {
-        (self.shape[a] - 1).to_double()
+        // A singleton dimension still has a voxel basis; compare one step.
+        (if self.shape[a] > 1 { self.shape[a] - 1 } else { 1 }).to_double()
       }
     })
     let av = self.world(p[0], p[1], p[2], space~)
