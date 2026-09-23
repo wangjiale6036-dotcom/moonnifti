@@ -1,6 +1,6 @@
-/_build/
+_build/
 /target/
-/.mooncakes/
+.mooncakes/
 /node_modules/
 /work/
 /dist/

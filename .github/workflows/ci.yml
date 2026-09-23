@@ -40,6 +40,9 @@ jobs:
       - run: python scripts/oracle.py --report work/oracle-report.json
       - run: python scripts/scenarios.py work/scenarios
       - run: moon package
+      - run: moon -C examples/registry-consumer test --target js --deny-warn
+      - run: moon -C examples/registry-consumer test --target wasm-gc --deny-warn
+      - run: moon -C examples/registry-consumer test --target native --deny-warn
       - uses: actions/upload-artifact@v4
         with:
           name: moonnifti-${{ matrix.os }}

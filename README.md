@@ -62,7 +62,7 @@ node CLI reorient roi.nii.gz arranged.nii 2 0 1 1 0 0
 
 ## 作为库使用
 
-模块名 `wangjiale6036-dotcom/moonnifti`；Mooncakes 发布状态以公开包页面为准，GitHub 源码始终可构建。依赖配置完成后，在 `moon.pkg` 中导入：
+模块名 `wangjiale6036-dotcom/moonnifti`；[Mooncakes 0.1.0](https://mooncakes.io/docs/wangjiale6036-dotcom/moonnifti) 已发布。先在消费项目运行 `moon add wangjiale6036-dotcom/moonnifti`，再在 `moon.pkg` 中导入：
 
 ```moonbit
 import { "wangjiale6036-dotcom/moonnifti" @nifti }
@@ -82,6 +82,8 @@ fn process(bytes : Bytes) -> Bytes raise @nifti.NiftiError {
 ```
 
 示例假设输入足够大且定义了 qform，否则返回错误。`Image`、`Affine` 内部存储私有；返回的尺寸、矩阵是副本。库的输入是解压后的 `.nii` 字节，gzip 不属于核心库接口。参见 [公开接口](pkg.generated.mbti)、[跨包消费测试](examples/library/usage_test.mbt)、[API 语义](docs/API.md)。
+
+独立的 [registry-consumer](examples/registry-consumer) 模块只声明版本依赖、不配置本地路径。运行 `moon -C examples/registry-consumer test --target js` 可验证从 Mooncakes 下载后的完整读取、统计、切片和变换接口。
 
 ## 空间语义与安全边界
 

@@ -32,7 +32,7 @@ MoonNIfTI——MoonBit 原生 NIfTI 体数据与空间变换库。
 
 ## 8. 仓库与有效提交
 
-GitHub：[wangjiale6036-dotcom/moonnifti](https://github.com/wangjiale6036-dotcom/moonnifti)。已有超过 10 次实际开发提交，覆盖二进制解码、几何、解析、切片/网格、裁剪、轴变换、CLI、独立验证、边界加固、公开 API、完整场景与 CI；无空提交、重复提交或伪造时间。有效赛期认定以组委会审核为准。[CI 与复现产物](https://github.com/wangjiale6036-dotcom/moonnifti/actions/workflows/ci.yml)，README 提供完整复现命令。
+GitHub：[wangjiale6036-dotcom/moonnifti](https://github.com/wangjiale6036-dotcom/moonnifti)。已有超过 10 次实际开发提交，覆盖解码、几何、解析、切片/网格、裁剪、轴变换、CLI、独立验证、加固、API、场景与 CI；无空提交、重复提交或伪造时间。有效赛期认定以组委会审核为准。[Mooncakes 0.1.0](https://mooncakes.io/docs/wangjiale6036-dotcom/moonnifti) 已发布，并在独立模块中重新下载后通过三个后端测试。[CI 与复现产物](https://github.com/wangjiale6036-dotcom/moonnifti/actions/workflows/ci.yml)，README 提供复现命令。
 
 ---
 
