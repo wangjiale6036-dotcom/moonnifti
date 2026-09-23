@@ -131,11 +131,12 @@ fn quaternion_affine(
 ) -> Affine raise NiftiError {
   let s = b0 * b0 + c0 * c0 + d0 * d0
   require(finite(s) && s <= 1.00001, "invalid_quaternion", offset=256)
-  let norm = if s > 1 { s.sqrt() } else { 1.0 }
+  let near_half_turn = 1.0 - s < 1.0e-7
+  let norm = if near_half_turn { s.sqrt() } else { 1.0 }
   let b = b0 / norm
   let c = c0 / norm
   let d = d0 / norm
-  let a = if s >= 1 { 0.0 } else { (1.0 - s).sqrt() }
+  let a = if near_half_turn { 0.0 } else { (1.0 - s).sqrt() }
   let dz = if qfac < 0 { -dz0 } else { dz0 }
   Affine::new([
     (a * a + b * b - c * c - d * d) * dx,
