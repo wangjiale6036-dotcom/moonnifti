@@ -1,7 +1,7 @@
 ///|
 /// An owned, finite, nonsingular row-major 4x4 affine.
 pub struct Affine {
-  values : FixedArray[Double]
+  priv values : FixedArray[Double]
 }
 
 ///|

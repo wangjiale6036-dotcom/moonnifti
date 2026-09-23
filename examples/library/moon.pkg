@@ -1,0 +1,5 @@
+import {
+  "wangjiale6036-dotcom/moonnifti" @nifti,
+} for "test"
+
+supported_targets = "js+wasm-gc+native"

@@ -11,24 +11,24 @@ pub extend Space with Eq::{equal, not_equal}
 ///|
 /// Storage is private. Images own their input bytes; methods return copies.
 pub struct Image {
-  header : Bytes
-  payload : Bytes
-  shape : FixedArray[Int]
-  ndim : Int
-  dtype : Int
-  width : Int
-  endian : Endian
-  slope : Double
-  intercept : Double
-  spacing : FixedArray[Double]
-  qform : Affine?
-  sform : Affine?
-  qcode : Int
-  scode : Int
-  spatial_unit : Int
-  time_unit : Int
-  extension_count : Int
-  intent : Int
+  priv header : Bytes
+  priv payload : Bytes
+  priv shape : FixedArray[Int]
+  priv ndim : Int
+  priv dtype : Int
+  priv width : Int
+  priv endian : Endian
+  priv slope : Double
+  priv intercept : Double
+  priv spacing : FixedArray[Double]
+  priv qform : Affine?
+  priv sform : Affine?
+  priv qcode : Int
+  priv scode : Int
+  priv spatial_unit : Int
+  priv time_unit : Int
+  priv extension_count : Int
+  priv intent : Int
 }
 
 ///|

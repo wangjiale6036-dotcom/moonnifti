@@ -1,0 +1,103 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wangjiale6036-dotcom/moonnifti"
+
+// Values
+pub fn read(Bytes) -> Image raise NiftiError
+
+pub fn version() -> String
+
+// Errors
+pub(all) suberror NiftiError {
+  NiftiError(String, Int)
+} derive(Eq)
+pub fn NiftiError::equal(Self, Self) -> Bool
+pub fn NiftiError::not_equal(Self, Self) -> Bool
+pub fn NiftiError::output(Self, &Logger) -> Unit
+pub fn NiftiError::to_string(Self) -> String
+pub impl Show for NiftiError
+
+// Types and methods
+pub struct Affine {
+  // private fields
+}
+pub fn Affine::compose(Self, Self) -> Self raise NiftiError
+pub fn Affine::determinant(Self) -> Double
+pub fn Affine::identity() -> Self
+pub fn Affine::inverse(Self) -> Self raise NiftiError
+pub fn Affine::matrix(Self) -> Array[Double]
+pub fn Affine::new(Array[Double]) -> Self raise NiftiError
+pub fn Affine::transform(Self, Double, Double, Double) -> Array[Double] raise NiftiError
+
+pub(all) enum Endian {
+  Little
+  Big
+} derive(Eq)
+pub fn Endian::equal(Self, Self) -> Bool
+pub fn Endian::not_equal(Self, Self) -> Bool
+pub fn Endian::output(Self, &Logger) -> Unit
+pub fn Endian::to_string(Self) -> String
+pub impl Show for Endian
+
+pub(all) struct GridComparison {
+  compatible : Bool
+  reason : String
+  maximum_corner_error_mm : Double?
+}
+
+pub struct Image {
+  // private fields
+}
+pub fn Image::affine(Self, Space) -> Affine?
+pub fn Image::byte_order(Self) -> Endian
+pub fn Image::compare_grid(Self, Self, tolerance_mm? : Double, space? : Space) -> GridComparison raise NiftiError
+pub fn Image::crop(Self, Array[Int], Array[Int], drop_extensions? : Bool) -> TransformResult raise NiftiError
+pub fn Image::datatype(Self) -> Int
+pub fn Image::dimensions(Self) -> Array[Int]
+pub fn Image::extensions(Self) -> Int
+pub fn Image::form_codes(Self) -> (Int, Int)
+pub fn Image::linear_index(Self, Int, Int, Int, t? : Int) -> Int raise NiftiError
+pub fn Image::raw_at(Self, Int) -> Double raise NiftiError
+pub fn Image::reorient(Self, Array[Int], Array[Bool], drop_extensions? : Bool) -> TransformResult raise NiftiError
+pub fn Image::scaled_at(Self, Int) -> Double raise NiftiError
+pub fn Image::scaling(Self) -> (Double, Double)
+pub fn Image::slice(Self, Int, Int, t? : Int, scaled? : Bool) -> Slice raise NiftiError
+pub fn Image::statistics(Self, scaled? : Bool) -> Statistics raise NiftiError
+pub fn Image::to_bytes(Self) -> Bytes
+pub fn Image::units(Self) -> (Int, Int)
+pub fn Image::voxel(Self, Int, Int, Int, t? : Int, scaled? : Bool) -> Double raise NiftiError
+pub fn Image::voxel_count(Self) -> Int
+pub fn Image::voxel_spacing(Self) -> Array[Double]
+pub fn Image::world(Self, Double, Double, Double, space? : Space) -> Array[Double] raise NiftiError
+
+pub(all) struct Slice {
+  width : Int
+  height : Int
+  values : Array[Double]
+}
+
+pub(all) enum Space {
+  QForm
+  SForm
+  PreferSForm
+} derive(Eq)
+pub fn Space::equal(Self, Self) -> Bool
+pub fn Space::not_equal(Self, Self) -> Bool
+
+pub(all) struct Statistics {
+  finite_count : Int
+  nan_count : Int
+  positive_infinity_count : Int
+  negative_infinity_count : Int
+  minimum : Double?
+  maximum : Double?
+  mean : Double?
+}
+
+pub(all) struct TransformResult {
+  image : Image
+  warnings : Array[String]
+}
+
+// Type aliases
+
+// Traits
