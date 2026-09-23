@@ -1,0 +1,9 @@
+import {
+  "wangjiale6036-dotcom/moonnifti" @nifti,
+  "moonbitlang/core/env",
+  "moonbitlang/core/string",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "js"
