@@ -1,0 +1,8 @@
+/_build/
+/target/
+/.mooncakes/
+/node_modules/
+/work/
+/dist/
+__pycache__/
+*.pyc
