@@ -1,7 +1,12 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "wangjiale6036-dotcom/moonnifti/examples/library"
 
+import {
+  "wangjiale6036-dotcom/moonnifti",
+}
+
 // Values
+pub fn process(Bytes) -> Bytes raise @moonnifti.NiftiError
 
 // Errors
 
