@@ -35,4 +35,12 @@ test "published module consumes a complete scalar image across package boundary"
   assert_eq(@nifti.read(output.to_bytes()).raw_at(0), 42.0)
   assert_true(img.compare_grid(crop).compatible)
   assert_true(!img.compare_grid(output).compatible)
+  assert_eq(@nifti.version(), "0.2.0")
+  let region = img.select_region(img, Label(42))
+  assert_eq(region.count(), 1)
+  assert_eq(region.centroid_mm().unwrap(), [0.0, 0.0, 0.0])
+  assert_eq(region.volume_mm3(), 1.0)
+  assert_eq(region.time_series()[0].statistics.mean, Some(42.0))
+  assert_eq(region.histogram(0, 0, 42, 1).counts, [1])
+  assert_eq(region.crop().image.raw_at(0), 42.0)
 }

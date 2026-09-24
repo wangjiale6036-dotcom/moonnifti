@@ -289,11 +289,14 @@ node moonnifti.cjs world scenarios/input/phantom.nii.gz 2 1 1 qform
 | 既有独立 oracle | 276 案例：32 读取、32 裁剪、192 重排、12 切片、8 网格比较 |
 | 新增区域验收 | 69 次直接 CLI 调用、2 次批程序调用，12 组行为合同；含 12 个固定种子 NumPy 标签/统计/直方图案例 |
 | 完整场景 | 原三个流程 + 标签区域分析/批处理流程；均为合成输入，可复现，无外部采用声明 |
-| 历史发布验证 | v0.1.0 已在 Mooncakes 发布，独立 registry 消费在三后端通过；[历史双平台 CI](https://github.com/wangjiale6036-dotcom/moonnifti/actions/runs/35871160415) |
+| 公开包验证 | Mooncakes 0.2.0 已发布；独立模块实际下载 0.2.0 后，新旧 API（含区域统计与裁剪）在三个后端通过，不使用本地路径依赖 |
+| 新功能双平台验证 | [GitHub Actions 35951923910](https://github.com/wangjiale6036-dotcom/moonnifti/actions/runs/35951923910) 通过；功能提交 edc1aa0，后续材料/消费验证提交未改运行时源码 |
 | 当前公开证据入口 | [提交记录](https://github.com/wangjiale6036-dotcom/moonnifti/commits/main/)、[CI](https://github.com/wangjiale6036-dotcom/moonnifti/actions/workflows/ci.yml)、[版本发布](https://github.com/wangjiale6036-dotcom/moonnifti/releases)；分别核对版本，不用旧版通过证明新版本 |
-| 已有有效工作历史 | 原 v0.1.0 已有 14 次真实迭代，本次再追加区域功能及材料修正；不回填日期、空提交或重写旧标签，有效赛期提交最终由组委会认定 |
+| 已有工作历史 | 原 v0.1.0 已有 14 次真实迭代，本次追加区域功能、材料修正及新公开包消费验收；不回填日期、空提交或重写旧标签，有效赛期提交最终由组委会认定 |
 
 ### 8.4 性能仅作佐证
+
+Mooncakes 0.2.0 发布源码为 `3d0c9ec318c4f3ec9a93f3eb19fd9384c61224a6`。此后的仓库提交更新独立消费验证和发布材料，不改运行时库/CLI；GitHub 发布版本以标签和校验清单为准。
 
 2026-09-24，本机 Windows 11 build 26200、Intel64 Family 6 Model 183 Stepping 1（24 逻辑核）、Node 24.21.0、MoonBit/core 0.10.14+7d59c7ec9 的 release JS，静态 uint8 掩码选中 1/8 空间样本，命令为区域逐帧统计。每种输入预热 1 次、正式 5 次，包含启动、读文件、校验、复制、区域选择、统计与 JSON，未清空 OS 文件缓存。
 

@@ -88,7 +88,7 @@ fn process(bytes : Bytes) -> Bytes raise @nifti.NiftiError {
 
 示例假设输入足够大且定义了 qform，否则返回错误。`Image`、`Affine`、`Region` 内部存储私有；返回的尺寸、矩阵、区域中心是副本。库的输入是解压后的 `.nii` 字节，gzip 不属于核心库接口。参见 [公开接口](pkg.generated.mbti)、[跨包消费测试](examples/library/usage_test.mbt)、[区域分析与导出流水线](examples/library/pipeline.mbt)、[API 语义](docs/API.md)。
 
-独立的 [registry-consumer](examples/registry-consumer) 模块只声明版本依赖、不配置本地路径。运行 `moon -C examples/registry-consumer test --target js` 可验证从 Mooncakes 下载后的完整读取、统计、切片和变换接口。
+独立的 [registry-consumer](examples/registry-consumer) 模块只声明 0.2.0 版本依赖、不配置本地路径。运行 `moon -C examples/registry-consumer test --target js` 可验证从 Mooncakes 下载后的读取、统计、切片、变换及新增区域分析接口。0.2.0 已发布，实际下载后的消费测试在 JS/Wasm-GC/Native 均通过。
 
 ## 空间语义与安全边界
 

@@ -12,6 +12,10 @@
 - Explicit necessity/alternative analysis, behavioral acceptance and maintenance plan;
   synthetic examples are not represented as external adoption.
 
+Mooncakes 0.2.0 was published from commit `3d0c9ec`. Later release-preparation
+commits add the actual registry-downloaded 0.2.0 consumer and update evidence;
+runtime library/CLI sources are unchanged from that published package.
+
 ## 0.1.0 — 2026-09-23
 
 - MoonBit scalar 3D/4D NIfTI-1 little/big-endian reader with bounded validation.
