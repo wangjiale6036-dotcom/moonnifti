@@ -1,0 +1,114 @@
+{
+  "basis": "working-tree",
+  "method": "Exclude tests, generated files, blank/comment-only lines, JS FFI bodies/declarations; additionally show a conservative delimiter-only exclusion. No claim of official effective LOC.",
+  "core": {
+    "physical": 1436,
+    "nonblank_noncomment_moonbit": 1235,
+    "without_delimiter_only_lines": 1005
+  },
+  "all_production": {
+    "physical": 1858,
+    "nonblank_noncomment_moonbit": 1569,
+    "without_delimiter_only_lines": 1269
+  },
+  "files": [
+    {
+      "file": "cmd/moonnifti/roi.mbt",
+      "core": false,
+      "physical": 106,
+      "nonblank_noncomment_moonbit": 99,
+      "without_delimiter_only_lines": 78
+    },
+    {
+      "file": "region.mbt",
+      "core": true,
+      "physical": 186,
+      "nonblank_noncomment_moonbit": 153,
+      "without_delimiter_only_lines": 120
+    },
+    {
+      "file": "region_statistics.mbt",
+      "core": true,
+      "physical": 207,
+      "nonblank_noncomment_moonbit": 183,
+      "without_delimiter_only_lines": 150
+    },
+    {
+      "file": "affine.mbt",
+      "core": true,
+      "physical": 159,
+      "nonblank_noncomment_moonbit": 136,
+      "without_delimiter_only_lines": 117
+    },
+    {
+      "file": "analysis.mbt",
+      "core": true,
+      "physical": 157,
+      "nonblank_noncomment_moonbit": 140,
+      "without_delimiter_only_lines": 110
+    },
+    {
+      "file": "binary.mbt",
+      "core": true,
+      "physical": 117,
+      "nonblank_noncomment_moonbit": 87,
+      "without_delimiter_only_lines": 71
+    },
+    {
+      "file": "cmd/moonnifti/host.mbt",
+      "core": false,
+      "physical": 52,
+      "nonblank_noncomment_moonbit": 0,
+      "without_delimiter_only_lines": 0
+    },
+    {
+      "file": "cmd/moonnifti/main.mbt",
+      "core": false,
+      "physical": 223,
+      "nonblank_noncomment_moonbit": 203,
+      "without_delimiter_only_lines": 159
+    },
+    {
+      "file": "errors.mbt",
+      "core": true,
+      "physical": 37,
+      "nonblank_noncomment_moonbit": 24,
+      "without_delimiter_only_lines": 19
+    },
+    {
+      "file": "examples/library/pipeline.mbt",
+      "core": false,
+      "physical": 41,
+      "nonblank_noncomment_moonbit": 32,
+      "without_delimiter_only_lines": 27
+    },
+    {
+      "file": "image.mbt",
+      "core": true,
+      "physical": 170,
+      "nonblank_noncomment_moonbit": 129,
+      "without_delimiter_only_lines": 105
+    },
+    {
+      "file": "parse.mbt",
+      "core": true,
+      "physical": 153,
+      "nonblank_noncomment_moonbit": 151,
+      "without_delimiter_only_lines": 130
+    },
+    {
+      "file": "reorient.mbt",
+      "core": true,
+      "physical": 115,
+      "nonblank_noncomment_moonbit": 109,
+      "without_delimiter_only_lines": 87
+    },
+    {
+      "file": "transform.mbt",
+      "core": true,
+      "physical": 135,
+      "nonblank_noncomment_moonbit": 123,
+      "without_delimiter_only_lines": 96
+    }
+  ]
+}

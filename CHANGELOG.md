@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0 — 2026-09-24
+
+- Grid-gated static mask/label regions, private source-bound selection, mm centroid
+  and determinant-based physical volume, bounded rectangular cropping.
+- Regional per-frame finite/nonfinite statistics, explicit temporal-unit conversion,
+  fixed-bin histograms with complete outlier accounting. Shared statistics accumulator.
+- Three new CLI commands and a downstream manifest-to-CSV/crop consumer.
+- Hand-computable NiBabel/NumPy acceptance, negative cases, deterministic property
+  cases, cross-backend tests, source audit and reproducible supporting latency data.
+- Explicit necessity/alternative analysis, behavioral acceptance and maintenance plan;
+  synthetic examples are not represented as external adoption.
+
 ## 0.1.0 — 2026-09-23
 
 - MoonBit scalar 3D/4D NIfTI-1 little/big-endian reader with bounded validation.

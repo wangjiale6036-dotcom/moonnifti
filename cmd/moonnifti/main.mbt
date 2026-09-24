@@ -43,21 +43,13 @@ fn describe(img : @nifti.Image) -> Json raise {
     "qform": matrix(img.affine(QForm)),
     "sform": matrix(img.affine(SForm)),
     "extension_count": img.extensions().to_json(),
-    "statistics": {
-      "finite_count": stats.finite_count.to_json(),
-      "nan_count": stats.nan_count.to_json(),
-      "positive_infinity_count": stats.positive_infinity_count.to_json(),
-      "negative_infinity_count": stats.negative_infinity_count.to_json(),
-      "minimum": optional(stats.minimum),
-      "maximum": optional(stats.maximum),
-      "mean": optional(stats.mean),
-    },
+    "statistics": stats_json(stats),
   }
 }
 
 ///|
 fn usage() -> String {
-  "MoonNIfTI 0.1.0 — research data, not clinical diagnosis\nUsage (Node.js CLI):\n  inspect INPUT\n  dump INPUT                        # at most 100000 samples\n  slice INPUT AXIS INDEX [T]         # data axis 0/1/2, at most 1M values\n  world INPUT X Y Z [qform|sform|prefer]\n  grid LEFT RIGHT [TOLERANCE_MM]     # exit 2 when incompatible\n  crop INPUT OUTPUT X Y Z NX NY NZ [--drop-extensions]\n  reorient INPUT OUTPUT A0 A1 A2 F0 F1 F2 [--drop-extensions]\nAxes are new-to-old indices, flips are 0/1. Outputs must not exist.\n.nii.gz input is bounded; .gz output uses gzip. No interpolation."
+  "MoonNIfTI 0.2.0 — research data, not clinical diagnosis\nUsage (Node.js CLI):\n  inspect INPUT\n  dump INPUT                        # at most 100000 samples\n  slice INPUT AXIS INDEX [T]         # data axis 0/1/2, at most 1M values\n  world INPUT X Y Z [qform|sform|prefer]\n  grid LEFT RIGHT [TOLERANCE_MM]     # exit 2 when incompatible\n  crop INPUT OUTPUT X Y Z NX NY NZ [--drop-extensions]\n  reorient INPUT OUTPUT A0 A1 A2 F0 F1 F2 [--drop-extensions]\n  roi INPUT MASK SELECTION          # SELECTION: nonzero or nonnegative label\n  hist INPUT MASK SELECTION FRAME LOWER UPPER BINS\n  roi-crop INPUT MASK OUTPUT SELECTION [MARGIN] [--drop-extensions]\nROI commands require matching static mask grids; prefer sform, then qform.\nroi-crop exports a rectangular box, not a masked volume. Margin is voxels.\nAxes are new-to-old indices, flips are 0/1. Outputs must not exist.\n.nii.gz input is bounded; .gz output uses gzip. No interpolation."
 }
 
 ///|
@@ -98,13 +90,15 @@ fn run() -> Unit raise {
   }
   let command = args[0]
   demand(
-    ["inspect", "dump", "slice", "world", "grid", "crop", "reorient"].contains(
-      command,
-    ),
+    [
+      "inspect", "dump", "slice", "world", "grid", "crop", "reorient", "roi", "roi-crop",
+      "hist",
+    ].contains(command),
   )
   demand(args.length() >= 2)
   let img = load(args[1])
   match command {
+    "roi" | "roi-crop" | "hist" => run_roi(args, img)
     "inspect" => {
       demand(args.length() == 2)
       println(describe(img).stringify(indent=2))

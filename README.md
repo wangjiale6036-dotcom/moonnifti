@@ -10,7 +10,7 @@ Pure MoonBit scalar NIfTI-1 decoding, voxel access, spatial geometry, ROI and si
 
 ## 已实现
 
-| 能力 | 0.1.0 边界 |
+| 能力 | 0.2.0 边界 |
 | --- | --- |
 | 读取 | NIfTI-1 `n+1` 单文件、3D/4D、大小端 |
 | 数据类型 | uint8 / int8 / uint16 / int16 / uint32 / int32 / float32 / float64 |
@@ -18,9 +18,11 @@ Pure MoonBit scalar NIfTI-1 decoding, voxel access, spatial geometry, ROI and si
 | 几何 | 独立 qform/sform、qfac、仿射组合/求逆、显式空间选择 |
 | 统计 | 有限值最小/最大/均值；NaN、+Inf、-Inf 独立计数 |
 | 网格比较 | 尺寸、坐标系代码、已知长度单位换算、空间位置误差 |
+| 标签区域 | 静态同网格掩码、缩放后整数标签/非零选择、包围盒、毫米中心及 mm³ 体积 |
+| 区域分析 | 每帧统计、明确时间单位换算、直方图及超界/非有限值计数 |
 | 变换 | 整数 ROI、全部 48 种轴排列与翻转；不插值、不重采样 |
 | 写出 | 原始样本字节和缩放保留；两套坐标独立更新；元数据损失报告 |
-| CLI | inspect / dump / slice / world / grid / crop / reorient，受限 gzip，禁止覆盖已有输出 |
+| CLI | inspect / dump / slice / world / grid / crop / reorient / roi / hist / roi-crop；受限 gzip，禁止覆盖已有输出 |
 
 不支持：NIfTI-2、Analyze `.hdr/.img` 对、RGB/复数/64 位整数体素、向量/张量重定向、任意角度重采样、自动解剖方向标准化。切片是**数据轴切片**，不能直接称为经过校正的轴位/冠状位/矢状位。
 
@@ -54,6 +56,9 @@ node CLI world input.nii.gz 10 20 30 qform
 node CLI grid image.nii.gz labels.nii.gz 0.001
 node CLI crop input.nii.gz roi.nii.gz 10 20 5 32 32 16
 node CLI reorient roi.nii.gz arranged.nii 2 0 1 1 0 0
+node CLI roi image.nii.gz labels.nii 2
+node CLI hist image.nii.gz labels.nii 2 0 15 217 2
+node CLI roi-crop image.nii.gz labels.nii region.nii.gz 2 1
 ```
 
 `reorient` 中新轴 0/1/2 分别对应旧轴 2/0/1，最后三个 0/1 表示是否翻转新轴。不会把它自动解释为 RAS/LPS。
@@ -62,7 +67,7 @@ node CLI reorient roi.nii.gz arranged.nii 2 0 1 1 0 0
 
 ## 作为库使用
 
-模块名 `wangjiale6036-dotcom/moonnifti`；[Mooncakes 0.1.0](https://mooncakes.io/docs/wangjiale6036-dotcom/moonnifti) 已发布。先在消费项目运行 `moon add wangjiale6036-dotcom/moonnifti`，再在 `moon.pkg` 中导入：
+模块名 `wangjiale6036-dotcom/moonnifti`；[Mooncakes](https://mooncakes.io/docs/wangjiale6036-dotcom/moonnifti)。区域分析接口需要 0.2.0，旧版 0.1.0 不含这些接口。先在消费项目运行 `moon add wangjiale6036-dotcom/moonnifti`，确认版本，再在 `moon.pkg` 中导入：
 
 ```moonbit
 import { "wangjiale6036-dotcom/moonnifti" @nifti }
@@ -81,7 +86,7 @@ fn process(bytes : Bytes) -> Bytes raise @nifti.NiftiError {
 }
 ```
 
-示例假设输入足够大且定义了 qform，否则返回错误。`Image`、`Affine` 内部存储私有；返回的尺寸、矩阵是副本。库的输入是解压后的 `.nii` 字节，gzip 不属于核心库接口。参见 [公开接口](pkg.generated.mbti)、[跨包消费测试](examples/library/usage_test.mbt)、[API 语义](docs/API.md)。
+示例假设输入足够大且定义了 qform，否则返回错误。`Image`、`Affine`、`Region` 内部存储私有；返回的尺寸、矩阵、区域中心是副本。库的输入是解压后的 `.nii` 字节，gzip 不属于核心库接口。参见 [公开接口](pkg.generated.mbti)、[跨包消费测试](examples/library/usage_test.mbt)、[区域分析与导出流水线](examples/library/pipeline.mbt)、[API 语义](docs/API.md)。
 
 独立的 [registry-consumer](examples/registry-consumer) 模块只声明版本依赖、不配置本地路径。运行 `moon -C examples/registry-consumer test --target js` 可验证从 Mooncakes 下载后的完整读取、统计、切片和变换接口。
 
@@ -112,12 +117,27 @@ moon build --target js --release --deny-warn
 node tests/cli.mjs
 python scripts/oracle.py --report work/oracle-report.json
 python scripts/scenarios.py work/scenarios
+python scripts/roi_acceptance.py work/roi-acceptance
+python scripts/benchmark.py work/benchmark
+node scripts/source-audit.mjs --check --report work/source-audit.json
 moon package
 ```
 
-本地验收：24 个测试在三个后端通过；其中包含 3,000 次有界头部变异、48 种轴变换属性检查。CLI 37 次进程调用通过，包括损坏 gzip、超大文件、解压上限和拒绝覆盖。NiBabel 交叉验证 276 案例：32 读取、32 裁剪、192 轴变换、12 切片、8 网格比较。三个完整工作流另行执行。
+0.2.0 本地验收：32 个测试在三个后端通过；其中包含 3,000 次有界头部变异、48 种轴变换属性检查。原 CLI 37 次进程调用通过，包括损坏 gzip、超大文件、解压上限和拒绝覆盖。NiBabel 交叉验证 276 案例：32 读取、32 裁剪、192 轴变换、12 切片、8 网格比较。新增 ROI 验收包含 69 次直接 CLI 调用、2 次批处理程序调用及 12 组行为标准，和原有三个工作流一起复现。
 
 上述数量不是 3,000 个独立单元测试，也不是完整标准认证。实测独立矩阵最大绝对元素误差约 `3.9124e-6`；固定合成样例结果不构成所有输入的误差上界。CI 在 Linux / Windows 重跑验收并上传可下载的 CLI、包和场景产物。
+
+评审可以优先检查 [逐项行为验收](docs/ACCEPTANCE.zh-CN.md)，而不是以数量代替正确性。核心库排除测试、空行、注释后为 1,235 行 MoonBit；进一步排除纯分隔符行为 1,005 行，均不计 CLI、示例、生成接口或内嵌宿主 JS。`source-audit.mjs` 可逐文件复算，不声称是赛事官方有效行定义。性能仅作佐证，见 [实测方法与结果](docs/PERFORMANCE.md)。
+
+## 可运行的下游批处理
+
+`python scripts/roi_acceptance.py work/roi-acceptance` 会生成可手算图像、标签和 `batch.json`，并验收 [批处理消费程序](examples/batch-roi.mjs)。实际使用已有文件时只需 Node，不依赖 Python：
+
+```sh
+node examples/batch-roi.mjs work/roi-acceptance/batch.json work/my-batch
+```
+
+清单中每行含 `id`、`image`、`mask`、`label`，相对路径按清单目录解析。结果为逐帧 `time-series.csv`、成功案例的矩形裁剪 `.nii.gz` 和 `report.json`；示例中的 5 mm 错位案例被拒绝，进程返回 2，成功案例保留。已有输出目录会拒绝，不覆盖、不静默删扩展。见 [完整场景](docs/SCENARIOS.md)。这些是自建、合成数据集成样例，**没有声称真实机构已采用**。
 
 ## 独立贡献与来源
 

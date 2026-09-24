@@ -38,6 +38,12 @@ pub fn Endian::output(Self, &Logger) -> Unit
 pub fn Endian::to_string(Self) -> String
 pub impl Show for Endian
 
+pub(all) struct FrameStatistics {
+  frame : Int
+  time_seconds : Double?
+  statistics : Statistics
+}
+
 pub(all) struct GridComparison {
   compatible : Bool
   reason : String
@@ -60,14 +66,53 @@ pub fn Image::raw_at(Self, Int) -> Double raise NiftiError
 pub fn Image::reorient(Self, Array[Int], Array[Bool], drop_extensions? : Bool) -> TransformResult raise NiftiError
 pub fn Image::scaled_at(Self, Int) -> Double raise NiftiError
 pub fn Image::scaling(Self) -> (Double, Double)
+pub fn Image::select_region(Self, Self, MaskSelection, tolerance_mm? : Double, space? : Space) -> Region raise NiftiError
 pub fn Image::slice(Self, Int, Int, t? : Int, scaled? : Bool) -> Slice raise NiftiError
 pub fn Image::statistics(Self, scaled? : Bool) -> Statistics raise NiftiError
+pub fn Image::time_points_seconds(Self) -> Array[Double]? raise NiftiError
 pub fn Image::to_bytes(Self) -> Bytes
 pub fn Image::units(Self) -> (Int, Int)
 pub fn Image::voxel(Self, Int, Int, Int, t? : Int, scaled? : Bool) -> Double raise NiftiError
 pub fn Image::voxel_count(Self) -> Int
 pub fn Image::voxel_spacing(Self) -> Array[Double]
 pub fn Image::world(Self, Double, Double, Double, space? : Space) -> Array[Double] raise NiftiError
+
+pub(all) enum MaskSelection {
+  NonZero
+  Label(Int)
+}
+
+pub struct Region {
+  // private fields
+}
+pub fn Region::bounds(Self) -> RegionBounds?
+pub fn Region::centroid_mm(Self) -> Array[Double]?
+pub fn Region::count(Self) -> Int
+pub fn Region::crop(Self, margin? : Int, drop_extensions? : Bool) -> TransformResult raise NiftiError
+pub fn Region::histogram(Self, Int, Double, Double, Int, scaled? : Bool) -> RegionHistogram raise NiftiError
+pub fn Region::space(Self) -> Space
+pub fn Region::time_series(Self, scaled? : Bool) -> Array[FrameStatistics] raise NiftiError
+pub fn Region::volume_mm3(Self) -> Double raise NiftiError
+
+pub(all) struct RegionBounds {
+  x : Int
+  y : Int
+  z : Int
+  nx : Int
+  ny : Int
+  nz : Int
+}
+
+pub(all) struct RegionHistogram {
+  lower : Double
+  upper : Double
+  counts : Array[Int]
+  below_range : Int
+  above_range : Int
+  nan_count : Int
+  positive_infinity_count : Int
+  negative_infinity_count : Int
+}
 
 pub(all) struct Slice {
   width : Int

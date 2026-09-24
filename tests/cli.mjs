@@ -29,7 +29,7 @@ function fixture() {
 }
 try {
   assert.match(call(['--help'], 0, false), /research data/);
-  assert.equal(call(['--version'], 0, false).trim(), '0.1.0');
+  assert.equal(call(['--version'], 0, false).trim(), '0.2.0');
   const input = path.join(dir, 'volume.nii'), gz = path.join(dir, 'volume.nii.gz');
   fs.writeFileSync(input, fixture()); fs.writeFileSync(gz, zlib.gzipSync(fixture()));
   assert.deepEqual(call(['dump', input]), call(['dump', gz]));

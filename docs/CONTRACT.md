@@ -1,7 +1,7 @@
 # Numerical and implementation contract
 
 The NIfTI-1 single-file scalar 3D/4D subset is intentional. No NIfTI-2, paired
-Analyze files, RGB, complex or 64-bit integer voxel types in 0.1.0. Supported
+Analyze files, RGB, complex or 64-bit integer voxel types in 0.2.0. Supported
 voxel types: uint8/int8, int16/uint16, int32/uint32, float32/float64. The engine
 accepts little/big endian data and preserves raw voxel bytes during transforms.
 NIfTI magic, dimensions, datatype/bitpix, offsets, bounded extensions, checked
@@ -46,6 +46,12 @@ the library is not advertised as zero-copy or constant-memory streaming.
 4. Core tests pass JS/Wasm-GC/Native; real CLI exit codes and failure paths tested.
 5. Complete examples: slice/coordinate inspection, grid mismatch, ROI export.
 6. No third-party engine or Python/JS implementation substitutes for MoonBit core.
+7. Mask selection gates on grid compatibility; scaled integer labels, empty regions,
+   nonfinite samples and time units have explicit outcomes, not just test counts.
+8. A downstream manifest consumer must reject shifted cases and export independently
+   checked time-series CSV and rectangular crops for valid ones.
+
+Concrete inputs, expected outputs and tolerances: [acceptance specification](ACCEPTANCE.zh-CN.md).
 
 Reference specification:
 https://github.com/NIFTI-Imaging/nifti_clib/blob/master/nifti2/nifti1.h

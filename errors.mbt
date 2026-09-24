@@ -17,7 +17,7 @@ pub impl Show for NiftiError with fn output(self, logger) {
 
 ///|
 pub fn version() -> String {
-  "0.1.0"
+  "0.2.0"
 }
 
 ///|

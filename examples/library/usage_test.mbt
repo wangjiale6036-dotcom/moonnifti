@@ -1,6 +1,6 @@
 ///|
 test "public API consumption and affine ownership from a separate package" {
-  assert_eq(@nifti.version(), "0.1.0")
+  assert_eq(@nifti.version(), "0.2.0")
   let numbers = [2.0, 0, 0, 10, 0, 3, 0, -20, 0, 0, 4, 5, 0, 0, 0, 1]
   let a = @nifti.Affine::new(numbers)
   numbers[0] = 999

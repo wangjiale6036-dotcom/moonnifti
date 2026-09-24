@@ -6,11 +6,19 @@ import {
 }
 
 // Values
+pub fn export_label_region(Bytes, Bytes, Int, margin? : Int) -> MaskedExport raise @moonnifti.NiftiError
+
 pub fn process(Bytes) -> Bytes raise @moonnifti.NiftiError
 
 // Errors
 
 // Types and methods
+pub(all) struct MaskedExport {
+  bytes : Bytes
+  warnings : Array[String]
+  selected_voxels : Int
+  frames : Array[@moonnifti.FrameStatistics]
+}
 
 // Type aliases
 

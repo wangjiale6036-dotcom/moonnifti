@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "nibabel": "5.3.2",
+  "numpy": "2.3.5",
+  "cases": {
+    "read_cases": 32,
+    "crop_cases": 32,
+    "permutation_cases": 192,
+    "slice_cases": 12,
+    "grid_cases": 8
+  },
+  "maximum_matrix_absolute_error": 3.912374866854584e-06,
+  "matrix_atol": 0.0005,
+  "matrix_rtol": 5e-06,
+  "corner_atol": 0.002
+}

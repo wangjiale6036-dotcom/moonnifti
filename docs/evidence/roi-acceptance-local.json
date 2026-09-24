@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "inputs": "synthetic, not external adoption evidence",
+  "seed": 20260924,
+  "nibabel": "5.3.2",
+  "numpy": "2.3.5",
+  "cli_invocations": 69,
+  "batch_process_invocations": 2,
+  "behavior_groups": [
+    "hand-computable scaled time series, mm centroid/volume and closed final bin",
+    "rectangular crop preserves raw/scaled samples and independent qform/sform; no overwrite",
+    "bounding rectangle retains interior values and clips margin to image",
+    "physical grid and determinant volume are unit-aware and endian-independent",
+    "12 seeded NumPy label/scaling/time-series/histogram property cases",
+    "shifted/unknown/multi-frame/noninteger/nonfinite masks fail explicitly",
+    "empty region has no arbitrary bounds, mean or crop",
+    "nonfinite source values remain counted, never mistaken for finite means",
+    "opaque metadata is never silently dropped on ROI crop",
+    "seconds/milliseconds/microseconds convert; frequency and singleton axes do not invent time",
+    "invalid CLI range/frame/bins/label/margin fails without creating an output",
+    "downstream manifest consumer exports CSV and crop only for the matching case; existing output refused"
+  ],
+  "expected_means": [
+    116,
+    2116,
+    4116
+  ],
+  "centroid_tolerance_mm": 0.0001,
+  "volume_tolerance_mm3": 0.0001,
+  "mean_absolute_tolerance": 1e-09
+}

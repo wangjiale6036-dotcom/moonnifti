@@ -50,56 +50,12 @@ pub fn Image::statistics(
   self : Image,
   scaled? : Bool = true,
 ) -> Statistics raise NiftiError {
-  let mut n = 0
-  let mut nan = 0
-  let mut pos = 0
-  let mut neg = 0
-  let mut lo = 0.0
-  let mut hi = 0.0
-  let mut mean = 0.0
+  let accumulator = SampleAccumulator::new()
   for i in 0..<self.voxel_count() {
     let v = if scaled { self.scaled_at(i) } else { self.raw_at(i) }
-    if v.is_nan() {
-      nan += 1
-    } else if v.is_inf() {
-      if v > 0 {
-        pos += 1
-      } else {
-        neg += 1
-      }
-    } else {
-      n += 1
-      if n == 1 || v < lo {
-        lo = v
-      }
-      if n == 1 || v > hi {
-        hi = v
-      }
-      // Weighted terms avoid overflowing (v - mean) for opposite large signs.
-      mean = mean * ((n - 1).to_double() / n.to_double()) + v / n.to_double()
-    }
+    accumulator.add(v)
   }
-  {
-    finite_count: n,
-    nan_count: nan,
-    positive_infinity_count: pos,
-    negative_infinity_count: neg,
-    minimum: if n == 0 {
-      None
-    } else {
-      Some(lo)
-    },
-    maximum: if n == 0 {
-      None
-    } else {
-      Some(hi)
-    },
-    mean: if n == 0 {
-      None
-    } else {
-      Some(mean)
-    },
-  }
+  accumulator.finish()
 }
 
 ///|

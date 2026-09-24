@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "measurement": "end-to-end CLI elapsed wall time; no comparative speed claim",
+  "cache_policy": "one warm run excluded; OS page cache not flushed",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cpu": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+  "logical_cpus": 24,
+  "node": "v24.21.0",
+  "moonbit_toolchain": "0.10.14+7d59c7ec9 (pinned build prerequisite)",
+  "peak_memory": "not measured; source bytes are not process memory usage",
+  "cases": [
+    {
+      "shape": [
+        32,
+        24,
+        16,
+        4
+      ],
+      "datatype": "float32",
+      "selected_voxels": 1536,
+      "source_bytes": 196960,
+      "mask_bytes": 12640,
+      "warmups": 1,
+      "repeats": 5,
+      "milliseconds": [
+        77.45590002741665,
+        77.70980009809136,
+        73.97849997505546,
+        75.37249999586493,
+        75.5911999149248
+      ],
+      "median_ms": 75.5911999149248,
+      "min_ms": 73.97849997505546,
+      "max_ms": 77.70980009809136
+    },
+    {
+      "shape": [
+        64,
+        48,
+        24,
+        8
+      ],
+      "datatype": "float32",
+      "selected_voxels": 9216,
+      "source_bytes": 2359648,
+      "mask_bytes": 74080,
+      "warmups": 1,
+      "repeats": 5,
+      "milliseconds": [
+        91.87300002668053,
+        91.10980003606528,
+        94.25090008880943,
+        100.59479996562004,
+        102.18990000430495
+      ],
+      "median_ms": 94.25090008880943,
+      "min_ms": 91.10980003606528,
+      "max_ms": 102.18990000430495
+    }
+  ]
+}
